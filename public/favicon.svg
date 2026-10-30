@@ -5,6 +5,9 @@
   <ellipse cx="100" cy="148" rx="44" ry="30" fill="#9a6646"/>
   <circle cx="72" cy="110" r="9" fill="#2b1a10"/>
   <circle cx="128" cy="110" r="9" fill="#2b1a10"/>
-  <circle cx="100" cy="46" r="24" fill="#ffa43a"/>
-  <path d="M100 24 q14 -14 26 -6 q-12 12 -26 6 z" fill="#5fbf4a"/>
+  <g transform="rotate(-8 100 60)">
+    <ellipse cx="100" cy="62" rx="62" ry="14" fill="#e9b54f" stroke="#c9922e" stroke-width="4"/>
+    <path d="M62 62 Q62 14 100 14 Q138 14 138 62 Z" fill="#f4c86a" stroke="#c9922e" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M63 46 Q100 40 137 46 L138 61 L62 61 Z" fill="#ff7eb6"/>
+  </g>
 </svg>

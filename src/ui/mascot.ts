@@ -33,8 +33,15 @@ export function mascot(mood: Mood = 'happy', size = 160): string {
   ${eyes}
   <circle cx="62" cy="108" r="9" fill="#ff8fbf" opacity=".55"/>
   <circle cx="138" cy="108" r="9" fill="#ff8fbf" opacity=".55"/>
-  <circle cx="100" cy="38" r="17" fill="#ffa43a"/>
-  <circle cx="94" cy="32" r="5" fill="#fff" opacity=".35"/>
-  <path d="M100 22 q10 -10 18 -4 q-8 8 -18 4 z" fill="#5fbf4a"/>
+  <g transform="rotate(-8 100 50)">
+    <ellipse cx="100" cy="52" rx="46" ry="10" fill="#e9b54f" stroke="#c9922e" stroke-width="2.5"/>
+    <path d="M72 52 Q72 18 100 18 Q128 18 128 52 Z" fill="#f4c86a" stroke="#c9922e" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M73 41 Q100 36 127 41 L128 51 L72 51 Z" fill="#ff7eb6"/>
+    <g fill="#fff">
+      <circle cx="116" cy="40" r="3.6"/><circle cx="122" cy="40" r="3.6"/>
+      <circle cx="119" cy="35" r="3.6"/><circle cx="119" cy="45" r="3.6"/>
+    </g>
+    <circle cx="119" cy="40" r="2.6" fill="#ffd23f"/>
+  </g>
 </svg>`;
 }
