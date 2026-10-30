@@ -42,6 +42,8 @@ export const sfx = {
     tone(330, 0, 0.14, 'triangle', 0.12);
     tone(262, 0.12, 0.2, 'triangle', 0.12);
   },
+  flip: () => tone(520, 0, 0.08, 'triangle', 0.08),
+  munch: () => [0, 0.12, 0.24].forEach((d) => tone(180, d, 0.08, 'square', 0.05)),
   star: (i: number) => tone(880 + i * 220, 0, 0.25, 'sine', 0.14),
   win: () => [523, 659, 784, 1047].forEach((f, i) => tone(f, i * 0.12, 0.3)),
   unlock: () => [784, 1047, 1319, 1568].forEach((f, i) => tone(f, i * 0.08, 0.35, 'triangle', 0.12)),

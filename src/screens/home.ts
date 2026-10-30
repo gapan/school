@@ -40,7 +40,10 @@ export function renderHome(): string {
       ${mascot('happy', 140)}
       <div class="hero-side">
         <p class="bubble">${t.greeting}</p>
-        <a class="btn btn--alt album-btn" href="#/album">📒 ${t.albumButton} · ${earnedStickers().length}/${STICKERS.length}</a>
+        <div class="hero-buttons">
+          <a class="btn btn--alt album-btn" href="#/album">📒 ${t.albumButton} · ${earnedStickers().length}/${STICKERS.length}</a>
+          <a class="btn btn--games album-btn" href="#/games">🎮 ${t.gamesButton}</a>
+        </div>
       </div>
     </section>
     <section class="map">${castles}${grand}</section>

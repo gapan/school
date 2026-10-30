@@ -995,3 +995,213 @@ a.stage-card:active {
 .reset-done {
   font-weight: 700;
 }
+
+/* ---------- Extra games ---------- */
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn--games {
+  background: #3cc8c8;
+  box-shadow: 0 6px 0 #279c9c;
+}
+
+.btn--games:active {
+  box-shadow: 0 2px 0 #279c9c;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.chip {
+  min-width: 56px;
+  padding: 10px 16px;
+  background: var(--card);
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.chip--on {
+  background: var(--pink);
+  color: #fff;
+}
+
+.game-icon {
+  font-size: 2.4rem;
+}
+
+.game-record {
+  color: #c98a00 !important;
+  font-weight: 700;
+}
+
+/* Memory match */
+.moves {
+  margin: 0 0 10px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .memory-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.mem-card {
+  aspect-ratio: 1.15;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  perspective: 600px;
+}
+
+.mem-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.35s;
+}
+
+.mem-card--open .mem-inner {
+  transform: rotateY(180deg);
+}
+
+.mem-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  backface-visibility: hidden;
+  box-shadow: var(--shadow);
+  font-weight: 700;
+}
+
+.mem-back {
+  background: repeating-linear-gradient(45deg, var(--purple) 0 12px, #a97eff 12px 24px);
+  color: var(--yellow);
+  font-size: 2rem;
+}
+
+.mem-front {
+  transform: rotateY(180deg);
+  background: var(--card);
+  font-size: clamp(1.3rem, 6.5vw, 2rem);
+}
+
+.mem-card--q .mem-front {
+  color: var(--pink);
+}
+
+.mem-card--a .mem-front {
+  color: var(--purple);
+}
+
+.mem-card--matched .mem-front {
+  background: #e5f9dc;
+  animation: pulse 0.4s;
+}
+
+/* Feed Kapi */
+.belly {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--card);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+}
+
+.belly-seg {
+  flex: 1;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--star-off);
+  transition: background 0.3s;
+}
+
+.belly-seg--full {
+  background: #ffa43a;
+}
+
+.feed-stage {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.feed-stage .coach-text {
+  flex: 1;
+}
+
+.fruit-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: auto;
+}
+
+.fruit {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0 12px;
+  border: 0;
+  border-radius: 24px;
+  background: var(--card);
+  font: inherit;
+  box-shadow: 0 6px 0 #d9caf0;
+  cursor: pointer;
+  transition: transform 0.45s ease-in, opacity 0.3s;
+}
+
+.fruit:disabled {
+  opacity: 0.35;
+}
+
+.fruit-emoji {
+  font-size: clamp(2.2rem, 11vw, 3.2rem);
+  line-height: 1.1;
+}
+
+.fruit-num {
+  font-size: clamp(1.3rem, 6vw, 1.8rem);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.fruit--flying {
+  z-index: 5;
+  box-shadow: none;
+  background: transparent;
+}
+
+.fruit--fade {
+  opacity: 0.2;
+}
+
+.fruit--eaten {
+  opacity: 0;
+}

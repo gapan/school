@@ -1,8 +1,8 @@
 // All user-facing text lives here, so wording can be changed in one place.
 export const t = {
   appTitle: 'Το Βασίλειο του Πολλαπλασιασμού',
-  mascotName: 'Πριγκίπισσα Λίνα',
-  greeting: 'Γεια σου! Είμαι η Πριγκίπισσα Λίνα! Διάλεξε ένα κάστρο και πάμε να παίξουμε!',
+  mascotName: 'Κάπι',
+  greeting: 'Γεια σου! Είμαι το Κάπι, το καπιμπαράκι! Διάλεξε ένα κάστρο και πάμε να παίξουμε!',
   castleGreeting: 'Πέρασε τις πίστες για να κερδίσεις αστεράκια!',
   castle: (n: number) => `Κάστρο του ${n}`,
   grandChallenge: 'Μεγάλη Πρόκληση',
@@ -49,6 +49,25 @@ export const t = {
   stickerCount: (got: number, total: number) => `${got} από ${total} αυτοκόλλητα`,
   nextSticker: (n: number) => `Ακόμα ${n} ⭐ για το επόμενο αυτοκόλλητο!`,
   allStickers: 'Τα μάζεψες όλα! Είσαι πραγματική βασίλισσα!',
+
+  // Extra games
+  games: 'Παιχνίδια',
+  gamesButton: 'Παιχνίδια',
+  gamesIntro: 'Διάλεξε προπαίδεια και μετά παιχνίδι!',
+  allTables: 'Όλες',
+  memory: { title: 'Ταίριαξε', subtitle: 'Βρες τα ζευγάρια: πράξη και αποτέλεσμα' },
+  feed: { title: 'Τάισε το Κάπι', subtitle: 'Δώσε του το φρουτάκι με τη σωστή απάντηση' },
+  memoryPrompt: 'Γύρνα δύο κάρτες και βρες τα ζευγάρια!',
+  memoryMatch: 'Ζευγάρι!',
+  memoryMiss: 'Όχι αυτές. Θυμήσου πού ήταν!',
+  memoryDone: (n: number) => `Τα βρήκες όλα σε ${n} προσπάθειες!`,
+  moves: (n: number) => `Προσπάθειες: ${n}`,
+  feedPrompt: 'Πεινάω! Δώσε μου το σωστό φρουτάκι!',
+  feedYum: ['Νιαμ νιαμ!', 'Μμμ, πεντανόστιμο!', 'Ευχαριστώ!', 'Τέλειο!'],
+  feedWrong: 'Όχι αυτό! Δοκίμασε άλλο!',
+  feedDone: 'Το Κάπι χόρτασε! Ευχαριστώ πολύ!',
+  record: (n: number) => `Ρεκόρ: ${n}`,
+  newRecord: 'Νέο ρεκόρ!',
 
   // Parent corner
   parentsLink: 'Γονείς',

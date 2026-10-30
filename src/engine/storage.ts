@@ -14,9 +14,11 @@ interface Progress {
   facts: Record<string, FactStats>;
   sound: boolean;
   unlockAll: boolean;
+  // Best score per extra game, keyed as "<game>-<tables>".
+  records: Record<string, number>;
 }
 
-const defaults = (): Progress => ({ stars: {}, facts: {}, sound: true, unlockAll: false });
+const defaults = (): Progress => ({ stars: {}, facts: {}, sound: true, unlockAll: false, records: {} });
 
 let cache: Progress | null = null;
 
@@ -92,4 +94,18 @@ export function resetProgress(): void {
   const p = load();
   cache = { ...defaults(), sound: p.sound };
   save(cache);
+}
+
+export function getRecord(key: string): number | undefined {
+  return load().records[key];
+}
+
+// Stores the score if it beats the old record; returns true when it does.
+export function saveRecord(key: string, score: number, lowerIsBetter = false): boolean {
+  const p = load();
+  const old = p.records[key];
+  if (old !== undefined && (lowerIsBetter ? score >= old : score <= old)) return false;
+  p.records[key] = score;
+  save(p);
+  return true;
 }
