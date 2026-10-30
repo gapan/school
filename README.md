@@ -1,8 +1,10 @@
-# Το Βασίλειο του Πολλαπλασιασμού
+# Multiplication Kingdom
 
-A small, child-friendly web app for practising the multiplication tables, made for a 7-year-old who already knows the basics and wants to test herself while having fun. The interface is in Greek, designed for tablets and phones, and builds to a fully static site that can be hosted anywhere (GitHub Pages out of the box).
+A small, child-friendly web app for practising the multiplication tables, made for a 7-year-old who already knows the basics and wants to test herself while having fun. It is designed for tablets and phones and builds to a fully static site that can be hosted anywhere (GitHub Pages out of the box).
 
-The guide is **Κάπι**, a capybara in a party hat, who cheers on right answers, gives gentle hints after mistakes and never punishes.
+**The app's interface is entirely in Greek.** This README uses English translations for the names of screens, stages and games.
+
+The guide is **Kapi**, a capybara in a party hat, who cheers on right answers, gives gentle hints after mistakes and never punishes.
 
 ## Features
 
@@ -12,36 +14,36 @@ Each times table is a castle, opened in order of difficulty: ×2, ×5, ×10, ×3
 
 | Stage | How it works | Timer |
 | --- | --- | --- |
-| **Διάλεξε** | Pick the right answer out of four bubbles | No |
-| **Γράψε** | Type the answer on a big number pad | No |
-| **Πρόκληση** | Typed answers mixing this table with the castles already passed | 10 s per question |
+| **Pick** | Pick the right answer out of four bubbles | No |
+| **Type** | Type the answer on a big number pad | No |
+| **Challenge** | Typed answers mixing this table with the castles already passed | 10 s per question |
 
 - Each stage awards 0–3 stars based on answers that were right on the first try (9–10 → 3, 7–8 → 2, 5–6 → 1).
-- A stage opens when the previous one has at least one star; the next castle opens once **Γράψε** is passed.
-- After the **Πρόκληση** of every castle has been passed, the **Μεγάλη Πρόκληση** opens: all tables mixed, 8 seconds per question.
+- A stage opens when the previous one has at least one star; the next castle opens once **Type** is passed.
+- After the **Challenge** of every castle has been passed, the **Grand Challenge** opens: all tables mixed, 8 seconds per question.
 
 ### Feedback
 
-- Right answer: chime, green highlight, a cheering Κάπι.
-- First wrong answer: a soft sound and a hint built from the neighbouring fact (e.g. *"2 × 8 = 16, και άλλο ένα 2!"*), then another try.
+- Right answer: chime, green highlight, a cheering Kapi.
+- First wrong answer: a soft sound and a hint built from the neighbouring fact (e.g. *"Remember: 2 × 8 = 16, and one more 2!"*), then another try.
 - Second wrong answer (or time running out): the correct answer is shown and the round moves on.
 - Facts that were missed before come up more often in the timed rounds.
 
 ### Rewards
 
-- **Stickers:** 18 collectible stickers unlock at total-star milestones, the last one needing every star in the game. They are collected in the **Άλμπουμ**.
+- **Stickers:** 18 collectible stickers unlock at total-star milestones, the last one needing every star in the game. They are collected in the **Album**.
 - Confetti, star animations and "unlocked!" banners at the end of a round.
 
 ### Extra games
 
-Free-play games under **Παιχνίδια**, using any unlocked table (or all of them mixed). They don't award stars, but keep personal records.
+Free-play games under **Games**, using any unlocked table (or all of them mixed). They don't award stars, but keep personal records.
 
-- **Ταίριαξε:** memory match, pairing `a × b` cards with their answers.
-- **Τάισε το Κάπι:** tap the fruit with the right answer and it flies into Κάπι's mouth.
+- **Match:** memory match, pairing `a × b` cards with their answers.
+- **Feed Kapi:** tap the fruit with the right answer and it flies into Kapi's mouth.
 
 ### Parent corner
 
-Reached through the small **Γονείς** link at the bottom of the home screen, behind a simple grown-up gate (a two-digit multiplication). It shows:
+Reached through the small **Parents** link at the bottom of the home screen, behind a simple grown-up gate (a two-digit multiplication). It shows:
 
 - a 10 × 10 grid colour-coding how well each fact is known (based on first-try answers),
 - the five hardest facts,
@@ -50,14 +52,14 @@ Reached through the small **Γονείς** link at the bottom of the home screen
 
 ### Other details
 
-- Sound effects are synthesised with the Web Audio API, so there are no audio files; a 🔊/🔇 toggle remembers the choice.
+- Sound effects are synthesised with the Web Audio API, so there are no audio files; a sound on/off toggle remembers the choice.
 - All progress is stored in the browser's `localStorage` on the device. There are no accounts, no server and no tracking.
 - Touch-first layout with large buttons; a physical keyboard also works on the number pad.
 
 ## Tech stack
 
 - [Vite](https://vite.dev/) + TypeScript, no UI framework
-- [Comfortaa](https://fonts.google.com/specimen/Comfortaa) (self-hosted via `@fontsource-variable/comfortaa`, includes Greek)
+- [Comfortaa](https://fonts.google.com/specimen/Comfortaa) (self-hosted via `@fontsource-variable/comfortaa`, includes the Greek character set)
 - Hash-based routing (`#/castle/3`, `#/play/3/pick`, …) so the site works on static hosting without rewrites
 - Relative asset paths (`base: './'`), so the build works under any sub-path
 
@@ -88,7 +90,7 @@ Because the build is plain static files, `dist/` can also be uploaded to any oth
 ```
 src/
   main.ts            router and global click handling
-  strings.ts         all user-facing (Greek) text
+  strings.ts         all user-facing text (in Greek)
   styles.css         theme and layout
   engine/
     levels.ts        table order, stages, unlock rules, time limits
@@ -104,7 +106,7 @@ public/favicon.svg
 
 ## Customising
 
-- **Text:** every string shown to the child lives in `src/strings.ts`.
+- **Text:** almost every string shown in the app lives in `src/strings.ts`. To change the app's language, also translate the sticker names in `src/engine/stickers.ts`, the number-pad button labels in `src/games/typePad.ts`, and the page title and `lang` attribute in `index.html`.
 - **Time limits:** `TIME_LIMIT` in `src/engine/levels.ts`.
 - **Table order and castle colours:** `TABLE_ORDER` and `CASTLE_COLORS` in `src/engine/levels.ts`.
 - **Star thresholds:** `starsFor` in `src/engine/questions.ts`.
