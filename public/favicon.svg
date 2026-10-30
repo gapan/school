@@ -5,9 +5,11 @@
   <ellipse cx="100" cy="148" rx="44" ry="30" fill="#9a6646"/>
   <circle cx="72" cy="110" r="9" fill="#2b1a10"/>
   <circle cx="128" cy="110" r="9" fill="#2b1a10"/>
-  <g transform="rotate(-8 100 60)">
-    <ellipse cx="100" cy="62" rx="62" ry="14" fill="#e9b54f" stroke="#c9922e" stroke-width="4"/>
-    <path d="M62 62 Q62 14 100 14 Q138 14 138 62 Z" fill="#f4c86a" stroke="#c9922e" stroke-width="4" stroke-linejoin="round"/>
-    <path d="M63 46 Q100 40 137 46 L138 61 L62 61 Z" fill="#ff7eb6"/>
+  <g transform="rotate(12 100 60)">
+    <path d="M74 66 L100 10 L126 66 Q100 74 74 66 Z" fill="#9b6dff" stroke="#7449d6" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="94" cy="48" r="5" fill="#ffd23f"/>
+    <circle cx="108" cy="34" r="4.5" fill="#ff7eb6"/>
+    <circle cx="110" cy="56" r="4.5" fill="#3cc8c8"/>
+    <circle cx="100" cy="10" r="10" fill="#ff7eb6"/>
   </g>
 </svg>
