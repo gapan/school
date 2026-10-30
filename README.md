@@ -10,7 +10,7 @@ The guide is **Kapi**, a capybara in a party hat, who cheers on right answers, g
 
 ### Classes and activities
 
-The app opens on a class picker, then an activity picker for that class, so more school subjects and activities can be added over time. For now there is one class, **Maths**, with one activity, **Multiplication**, described below.
+The app opens on a class picker, then an activity picker for that class, so more school subjects and activities can be added over time. For now there is one class, **Maths**, with one activity, **Multiplication Kingdom**, described below.
 
 ### The castle map
 
