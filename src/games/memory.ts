@@ -1,3 +1,4 @@
+import { MULT } from '../routes';
 import { t } from '../strings';
 import { mascot, type Mood } from '../ui/mascot';
 import { confetti } from '../ui/confetti';
@@ -27,7 +28,7 @@ function shuffle<T>(items: T[]): T[] {
 // Memory match: pair each "a × b" card with its answer.
 export function mountMemory(root: HTMLElement, selRaw: string | undefined): () => void {
   const sel = normalizeSel(selRaw);
-  const backHref = `#/games/${sel}`;
+  const backHref = `${MULT}/games/${sel}`;
 
   // Answers must be unique, otherwise two cards could both match one question.
   const seen = new Set<number>();

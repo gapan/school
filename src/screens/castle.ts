@@ -1,3 +1,4 @@
+import { MULT } from '../routes';
 import { t } from '../strings';
 import { mascot } from '../ui/mascot';
 import { castleArt, starsRow } from '../ui/castle';
@@ -18,13 +19,13 @@ export function renderCastle(table: number): string {
       </span>
       ${unlocked ? starsRow(getStars(table, s.id), MAX_STARS) : `<span class="lock">🔒</span>`}`;
     return unlocked
-      ? `<a class="stage-card" href="#/play/${table}/${s.id}">${inner}</a>`
+      ? `<a class="stage-card" href="${MULT}/play/${table}/${s.id}">${inner}</a>`
       : `<div class="stage-card stage-card--locked">${inner}</div>`;
   }).join('');
 
   return `
     <header class="topbar">
-      <a class="btn btn--small" href="#/">← ${t.back}</a>
+      <a class="btn btn--small" href="${MULT}">← ${t.back}</a>
       <h1 class="title">${t.castle(table)}</h1>
     </header>
     <section class="castle-hero">

@@ -1,5 +1,16 @@
 // All user-facing text lives here, so wording can be changed in one place.
 export const t = {
+  // Class and activity pickers
+  hubTitle: 'Τι θα μάθουμε σήμερα;',
+  hubGreeting: 'Γεια σου! Είμαι ο Κάπι! Διάλεξε μάθημα και πάμε να παίξουμε μαζί!',
+  subjectGreeting: 'Τέλεια επιλογή! Τώρα διάλεξε με τι θα παίξουμε!',
+  subjects: {
+    math: { title: 'Μαθηματικά', subtitle: 'Αριθμοί, πράξεις και πολλά παιχνίδια' },
+  },
+  activities: {
+    multiplication: { title: 'Πολλαπλασιασμός', subtitle: 'Κάστρα, αστεράκια και παιχνίδια με την προπαίδεια' },
+  },
+
   appTitle: 'Το Βασίλειο του Πολλαπλασιασμού',
   mascotName: 'Κάπι',
   greeting: 'Γεια σου! Είμαι ο Κάπι και μου αρέσει ο πολλαπλασιασμός! Διάλεξε ένα κάστρο και πάμε να παίξουμε μαζί!',

@@ -1,3 +1,4 @@
+import { MULT } from '../routes';
 import { t } from '../strings';
 import { mascot, type Mood } from '../ui/mascot';
 import { confetti } from '../ui/confetti';
@@ -39,13 +40,13 @@ function roundConfig(table: number, stage: StageId): RoundConfig {
   if (table === GRAND) {
     return {
       title: t.grandChallenge,
-      backHref: '#/',
+      backHref: MULT,
       questions: makeMixedRound(TABLE_ORDER, []),
       pad: typePad,
       timeLimit: TIME_LIMIT.grand,
     };
   }
-  const base = { title: `${t.castle(table)} · ${t.stages[stage].title}`, backHref: `#/castle/${table}` };
+  const base = { title: `${t.castle(table)} · ${t.stages[stage].title}`, backHref: `${MULT}/castle/${table}` };
   if (stage === 'challenge') {
     return {
       ...base,

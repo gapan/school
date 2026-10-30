@@ -1,3 +1,4 @@
+import { MULT } from '../routes';
 import { t } from '../strings';
 import { TABLE_ORDER } from '../engine/levels';
 import { getFactStats, isUnlockAll, resetProgress, setUnlockAll, type FactStats } from '../engine/storage';
@@ -89,7 +90,7 @@ export function mountParents(root: HTMLElement): void {
   root.innerHTML = `
     <main class="screen">
       <header class="topbar">
-        <a class="btn btn--small" href="#/">← ${t.back}</a>
+        <a class="btn btn--small" href="${MULT}">← ${t.back}</a>
         <h1 class="title">${t.parentsTitle}</h1>
       </header>
       <div class="parents-body">

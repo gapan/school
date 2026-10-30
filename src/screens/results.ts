@@ -1,3 +1,4 @@
+import { MULT } from '../routes';
 import { t } from '../strings';
 import { mascot } from '../ui/mascot';
 import { MAX_STARS } from '../engine/levels';
@@ -18,7 +19,7 @@ export function renderResults(r: RoundResult): string {
     stars += `<span class="big-star ${i < r.stars ? 'big-star--on' : ''}" style="--i:${i}">★</span>`;
   }
   const stickers = r.newStickers.length
-    ? `<a class="new-sticker" href="#/album">
+    ? `<a class="new-sticker" href="${MULT}/album">
         <span class="new-sticker-title">🎉 ${t.newSticker}</span>
         <span class="new-sticker-list">${r.newStickers.map((s) => stickerBadge(s)).join('')}</span>
         <span>${r.newStickers.map((s) => s.name).join(', ')}</span>

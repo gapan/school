@@ -8,6 +8,10 @@ The guide is **Kapi**, a capybara in a party hat, who cheers on right answers, g
 
 ## Features
 
+### Classes and activities
+
+The app opens on a class picker, then an activity picker for that class, so more school subjects and activities can be added over time. For now there is one class, **Maths**, with one activity, **Multiplication**, described below.
+
 ### The castle map
 
 Each times table is a castle, opened in order of difficulty: ×2, ×5, ×10, ×3, ×4, ×6, ×7, ×8, ×9. Every castle has three stages of 10 questions:
@@ -60,7 +64,7 @@ Reached through the small **Parents** link at the bottom of the home screen, beh
 
 - [Vite](https://vite.dev/) + TypeScript, no UI framework
 - [Comfortaa](https://fonts.google.com/specimen/Comfortaa) (self-hosted via `@fontsource-variable/comfortaa`, includes the Greek character set)
-- Hash-based routing (`#/castle/3`, `#/play/3/pick`, …) so the site works on static hosting without rewrites
+- Hash-based routing (`#/math`, `#/math/multiplication/castle/3`, …) so the site works on static hosting without rewrites
 - Relative asset paths (`base: './'`), so the build works under any sub-path
 
 ## Getting started
@@ -89,7 +93,10 @@ Because the build is plain static files, `dist/` can also be uploaded to any oth
 
 ```
 src/
-  main.ts            router and global click handling
+  main.ts            top-level router (class → activity) and global click handling
+  catalog.ts         the list of classes and their activities
+  multiplication.ts  router for the multiplication screens
+  routes.ts          URL prefix of the multiplication activity
   strings.ts         all user-facing text (in Greek)
   styles.css         theme and layout
   engine/
@@ -98,13 +105,15 @@ src/
     stickers.ts      sticker list and milestones
     storage.ts       progress, fact stats, settings, records (localStorage)
     sound.ts         synthesised sound effects
-  screens/           home, castle, play (round flow), results, album, games hub, parent corner
+  screens/           class and activity pickers (hub), and the multiplication screens: home, castle, play (round flow), results, album, games hub, parent corner
   games/             answer pads (bubbles, number pad) and the extra games
   ui/                mascot, castle art, confetti, sound toggle
 public/favicon.svg
 ```
 
 ## Customising
+
+- **Adding a class or activity:** add an entry to `SUBJECTS` in `src/catalog.ts` (with its titles in `src/strings.ts`). An activity provides a `route(app, parts)` function that draws its screens for every URL below `#/<class>/<activity>/` and may return a cleanup function; see `src/multiplication.ts`.
 
 - **Text:** almost every string shown in the app lives in `src/strings.ts`. To change the app's language, also translate the sticker names in `src/engine/stickers.ts`, the number-pad button labels in `src/games/typePad.ts`, and the page title and `lang` attribute in `index.html`.
 - **Time limits:** `TIME_LIMIT` in `src/engine/levels.ts`.

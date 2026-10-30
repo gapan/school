@@ -1,3 +1,4 @@
+import { MULT } from '../routes';
 import { t } from '../strings';
 import { mascot } from '../ui/mascot';
 import { soundToggle } from '../ui/soundToggle';
@@ -41,12 +42,12 @@ export function gameHeader(title: string, backHref: string): string {
 export function renderGames(selRaw: string | undefined): string {
   const sel = normalizeSel(selRaw);
   const chips = ['all', ...TABLE_ORDER.filter(isCastleUnlocked).map(String)]
-    .map((s) => `<a class="chip ${s === sel ? 'chip--on' : ''}" href="#/games/${s}">${s === 'all' ? t.allTables : `×${s}`}</a>`)
+    .map((s) => `<a class="chip ${s === sel ? 'chip--on' : ''}" href="${MULT}/games/${s}">${s === 'all' ? t.allTables : `×${s}`}</a>`)
     .join('');
   const cards = GAMES.map((g) => {
     const record = getRecord(recordKey(g.id, sel));
     return `
-      <a class="stage-card game-card" href="#/game/${g.id}/${sel}">
+      <a class="stage-card game-card" href="${MULT}/game/${g.id}/${sel}">
         <span class="stage-icon game-icon">${g.icon}</span>
         <span class="stage-text">
           <strong>${t[g.id].title}</strong>
@@ -57,7 +58,7 @@ export function renderGames(selRaw: string | undefined): string {
   }).join('');
 
   return `
-    ${gameHeader(t.games, '#/')}
+    ${gameHeader(t.games, MULT)}
     <section class="hero">
       ${mascot('happy', 100)}
       <p class="bubble">${t.gamesIntro}</p>

@@ -1,3 +1,4 @@
+import { MULT } from '../routes';
 import { t } from '../strings';
 import { mascot } from '../ui/mascot';
 import { STICKERS, earnedStickers, nextSticker, stickerBadge } from '../engine/stickers';
@@ -17,7 +18,7 @@ export function renderAlbum(): string {
 
   return `
     <header class="topbar">
-      <a class="btn btn--small" href="#/">← ${t.back}</a>
+      <a class="btn btn--small" href="${MULT}">← ${t.back}</a>
       <h1 class="title">${t.album}</h1>
       <div class="star-total">⭐ ${total}</div>
     </header>

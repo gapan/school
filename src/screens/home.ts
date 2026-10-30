@@ -1,3 +1,4 @@
+import { MULT } from '../routes';
 import { t } from '../strings';
 import { mascot } from '../ui/mascot';
 import { castleArt, starsRow } from '../ui/castle';
@@ -14,7 +15,7 @@ export function renderHome(): string {
       <span class="castle-name">${t.castle(n)}</span>
       ${unlocked ? `<span class="castle-stars">⭐ ${castleStars(n)}/${STAGES.length * MAX_STARS}</span>` : `<span class="lock">🔒</span>`}`;
     return unlocked
-      ? `<a class="castle-card" href="#/castle/${n}">${inner}</a>`
+      ? `<a class="castle-card" href="${MULT}/castle/${n}">${inner}</a>`
       : `<div class="castle-card castle-card--locked" aria-label="${t.locked}">${inner}</div>`;
   }).join('');
 
@@ -27,11 +28,12 @@ export function renderHome(): string {
       ${grandOpen ? starsRow(getStars(GRAND, 'challenge'), MAX_STARS) : `<span class="lock">🔒</span>`}
     </span>`;
   const grand = grandOpen
-    ? `<a class="castle-card castle-card--grand" href="#/play/grand/challenge">${grandInner}</a>`
+    ? `<a class="castle-card castle-card--grand" href="${MULT}/play/grand/challenge">${grandInner}</a>`
     : `<div class="castle-card castle-card--grand castle-card--locked">${grandInner}</div>`;
 
   return `
-    <header class="topbar">
+    <header class="topbar topbar--home">
+      <a class="icon-btn icon-btn--back" href="#/math" aria-label="${t.back}">←</a>
       <h1 class="title">${t.appTitle}</h1>
       <div class="star-total" aria-label="${t.totalStars}">⭐ ${totalStars()}</div>
       ${soundToggle()}
@@ -41,12 +43,12 @@ export function renderHome(): string {
       <div class="hero-side">
         <p class="bubble">${t.greeting}</p>
         <div class="hero-buttons">
-          <a class="btn btn--alt album-btn" href="#/album">📒 ${t.albumButton} · ${earnedStickers().length}/${STICKERS.length}</a>
-          <a class="btn btn--games album-btn" href="#/games">🎮 ${t.gamesButton}</a>
+          <a class="btn btn--alt album-btn" href="${MULT}/album">📒 ${t.albumButton} · ${earnedStickers().length}/${STICKERS.length}</a>
+          <a class="btn btn--games album-btn" href="${MULT}/games">🎮 ${t.gamesButton}</a>
         </div>
       </div>
     </section>
     <section class="map">${castles}${grand}</section>
-    <footer class="home-footer"><a class="parents-link" href="#/parents">👪 ${t.parentsLink}</a></footer>
+    <footer class="home-footer"><a class="parents-link" href="${MULT}/parents">👪 ${t.parentsLink}</a></footer>
   `;
 }

@@ -61,6 +61,7 @@ a {
 
 .title {
   flex: 1;
+  min-width: 0;
   margin: 0;
   font-size: clamp(1.25rem, 5vw, 2rem);
   font-weight: 700;
@@ -1204,4 +1205,33 @@ a.stage-card:active {
 
 .fruit--eaten {
   opacity: 0;
+}
+
+/* Class and activity pickers */
+.hub-icon {
+  font-size: 2.6rem;
+}
+.icon-btn--back {
+  display: grid;
+  place-items: center;
+  color: var(--purple);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* Phones: the long home title gets its own row below the buttons */
+@media (max-width: 480px) {
+  .topbar--home {
+    flex-wrap: wrap;
+  }
+
+  .topbar--home .title {
+    order: 1;
+    flex-basis: 100%;
+    text-align: center;
+  }
+
+  .topbar--home .star-total {
+    margin-left: auto;
+  }
 }

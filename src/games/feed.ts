@@ -1,3 +1,4 @@
+import { MULT } from '../routes';
 import { t } from '../strings';
 import { mascot, type Mood } from '../ui/mascot';
 import { confetti } from '../ui/confetti';
@@ -18,7 +19,7 @@ function pickFruits(n: number): string[] {
 // Feed Kapi: tap the fruit carrying the right answer and it flies into Kapi's mouth.
 export function mountFeed(root: HTMLElement, selRaw: string | undefined): () => void {
   const sel = normalizeSel(selRaw);
-  const backHref = `#/games/${sel}`;
+  const backHref = `${MULT}/games/${sel}`;
   const questions = makeMixedRound(tablesFor(sel), []);
 
   root.innerHTML = `
