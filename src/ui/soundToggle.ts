@@ -1,5 +1,5 @@
 import { t } from '../strings';
-import { isSoundOn } from '../engine/storage';
+import { isSoundOn } from '../core/storage';
 
 // Clicks are handled globally in main.ts via data-action.
 export function soundToggle(): string {

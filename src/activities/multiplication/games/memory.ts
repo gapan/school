@@ -1,11 +1,13 @@
-import { MULT } from '../routes';
-import { t } from '../strings';
-import { mascot, type Mood } from '../ui/mascot';
-import { confetti } from '../ui/confetti';
-import { makeMixedRound } from '../engine/questions';
-import { getRecord, saveRecord } from '../engine/storage';
-import { sfx } from '../engine/sound';
-import { gameHeader, normalizeSel, recordKey, renderGameResults, tablesFor } from '../screens/games';
+import { t } from '../../../strings';
+import { mascot, type Mood } from '../../../ui/mascot';
+import { confetti } from '../../../ui/confetti';
+import { makeMixedRound } from '../questions';
+import { shuffle } from '../../../core/stages';
+import { sfx } from '../../../core/sound';
+import { topbar } from '../../../ui/widgets';
+import { renderGameResults } from '../../../ui/results';
+import { normalizeSel, recordKey, tablesFor } from '../screens/games';
+import { MULT, progress } from '../levels';
 
 const PAIRS = 6;
 const FLIP_BACK_DELAY = 900;
@@ -14,15 +16,6 @@ interface Card {
   pair: number;
   label: string;
   kind: 'q' | 'a';
-}
-
-function shuffle<T>(items: T[]): T[] {
-  const arr = [...items];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
 }
 
 // Memory match: pair each "a × b" card with its answer.
@@ -44,7 +37,7 @@ export function mountMemory(root: HTMLElement, selRaw: string | undefined): () =
 
   root.innerHTML = `
     <main class="screen">
-      ${gameHeader(t.memory.title, backHref)}
+      ${topbar(t.memory.title, backHref)}
       <div class="coach"><div class="coach-mascot"></div><p class="bubble coach-text"></p></div>
       <p class="moves"></p>
       <section class="memory-grid">
@@ -122,10 +115,10 @@ export function mountMemory(root: HTMLElement, selRaw: string | undefined): () =
 
   function finish(): void {
     const key = recordKey('memory', sel);
-    const newRecord = saveRecord(key, moves, true);
+    const newRecord = progress.saveRecord(key, moves, true);
     main.innerHTML =
-      gameHeader(t.memory.title, backHref) +
-      renderGameResults({ message: t.memoryDone(moves), newRecord, record: getRecord(key), backHref });
+      topbar(t.memory.title, backHref) +
+      renderGameResults({ message: t.memoryDone(moves), newRecord, record: progress.getRecord(key), backHref });
     sfx.win();
     if (newRecord) later(sfx.unlock, 600);
     confetti();

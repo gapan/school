@@ -1,7 +1,7 @@
-import { sfx } from '../engine/sound';
+import { sfx } from '../core/sound';
 import { shake, type PadFactory } from './pad';
 
-const MAX_DIGITS = 3;
+const MAX_DIGITS = 5;
 const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'del', '0', 'ok'];
 
 // Type the answer on a big number pad (a physical keyboard works too).

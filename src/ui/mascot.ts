@@ -1,9 +1,21 @@
 import { t } from '../strings';
 
 export type Mood = 'happy' | 'cheer' | 'think' | 'eat';
+export type MascotFn = (mood: Mood, size: number) => string;
+
+let current: MascotFn = kapi;
+
+// Each activity can bring its own mascot; Kapi is the default (and the guide of the pickers).
+export function setMascot(fn: MascotFn = kapi): void {
+  current = fn;
+}
+
+export function mascot(mood: Mood = 'happy', size = 160): string {
+  return current(mood, size);
+}
 
 // Kapi the capybara, as an inline SVG string.
-export function mascot(mood: Mood = 'happy', size = 160): string {
+function kapi(mood: Mood, size: number): string {
   const eyes =
     mood === 'cheer' || mood === 'eat'
       ? `<path d="M70 88 q8 -9 16 0" class="m-line"/><path d="M114 88 q8 -9 16 0" class="m-line"/>`

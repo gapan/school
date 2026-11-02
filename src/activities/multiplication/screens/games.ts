@@ -1,9 +1,7 @@
-import { MULT } from '../routes';
-import { t } from '../strings';
-import { mascot } from '../ui/mascot';
-import { soundToggle } from '../ui/soundToggle';
-import { TABLE_ORDER, isCastleUnlocked } from '../engine/levels';
-import { getRecord } from '../engine/storage';
+import { t } from '../../../strings';
+import { mascot } from '../../../ui/mascot';
+import { topbar } from '../../../ui/widgets';
+import { MULT, TABLE_ORDER, isCastleUnlocked, progress } from '../levels';
 
 export type GameId = 'memory' | 'feed';
 
@@ -30,22 +28,13 @@ export function recordKey(game: GameId, sel: string): string {
   return `${game}-${sel}`;
 }
 
-export function gameHeader(title: string, backHref: string): string {
-  return `
-    <header class="topbar">
-      <a class="btn btn--small" href="${backHref}">← ${t.back}</a>
-      <h1 class="title">${title}</h1>
-      ${soundToggle()}
-    </header>`;
-}
-
 export function renderGames(selRaw: string | undefined): string {
   const sel = normalizeSel(selRaw);
   const chips = ['all', ...TABLE_ORDER.filter(isCastleUnlocked).map(String)]
     .map((s) => `<a class="chip ${s === sel ? 'chip--on' : ''}" href="${MULT}/games/${s}">${s === 'all' ? t.allTables : `×${s}`}</a>`)
     .join('');
   const cards = GAMES.map((g) => {
-    const record = getRecord(recordKey(g.id, sel));
+    const record = progress.getRecord(recordKey(g.id, sel));
     return `
       <a class="stage-card game-card" href="${MULT}/game/${g.id}/${sel}">
         <span class="stage-icon game-icon">${g.icon}</span>
@@ -58,27 +47,12 @@ export function renderGames(selRaw: string | undefined): string {
   }).join('');
 
   return `
-    ${gameHeader(t.games, MULT)}
+    ${topbar(t.games, MULT)}
     <section class="hero">
       ${mascot('happy', 100)}
       <p class="bubble">${t.gamesIntro}</p>
     </section>
     <nav class="chips">${chips}</nav>
     <section class="stages">${cards}</section>
-  `;
-}
-
-export function renderGameResults(opts: { message: string; detail?: string; newRecord: boolean; record?: number; backHref: string }): string {
-  return `
-    <section class="results">
-      ${mascot('cheer', 150)}
-      <h2 class="results-title">${opts.message}</h2>
-      ${opts.detail ? `<p class="results-score">${opts.detail}</p>` : ''}
-      ${opts.newRecord ? `<p class="unlock-banner">🏆 ${t.newRecord}</p>` : opts.record !== undefined ? `<p class="results-score">🏆 ${t.record(opts.record)}</p>` : ''}
-      <div class="results-actions">
-        <button class="btn btn--alt" data-action="replay">↻ ${t.playAgain}</button>
-        <a class="btn" href="${opts.backHref}">${t.games} →</a>
-      </div>
-    </section>
   `;
 }

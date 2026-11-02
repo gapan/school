@@ -35,7 +35,7 @@ export const t = {
   hintOne: 'Κάθε αριθμός επί 1 μένει ίδιος!',
   hint: (a: number, b: number) => `Θυμήσου: ${a} × ${b - 1} = ${a * (b - 1)}, και άλλο ένα ${a}!`,
   timeUp: 'Ο χρόνος τελείωσε!',
-  reveal: (q: string, answer: number) => `${q} = ${answer}. Την επόμενη φορά θα τα καταφέρεις!`,
+  reveal: (fact: string) => `${fact}. Την επόμενη φορά θα τα καταφέρεις!`,
 
   // Results
   resultMessages: [

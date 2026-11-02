@@ -1,12 +1,13 @@
-import { MULT } from '../routes';
-import { t } from '../strings';
-import { mascot, type Mood } from '../ui/mascot';
-import { confetti } from '../ui/confetti';
-import { choicesFor, makeMixedRound } from '../engine/questions';
-import { getRecord, recordFact, saveRecord } from '../engine/storage';
-import { sfx } from '../engine/sound';
-import { shake } from './pad';
-import { gameHeader, normalizeSel, recordKey, renderGameResults, tablesFor } from '../screens/games';
+import { t } from '../../../strings';
+import { mascot, type Mood } from '../../../ui/mascot';
+import { confetti } from '../../../ui/confetti';
+import { factKey, makeMixedRound } from '../questions';
+import { sfx } from '../../../core/sound';
+import { shake } from '../../../pads/pad';
+import { topbar } from '../../../ui/widgets';
+import { renderGameResults } from '../../../ui/results';
+import { normalizeSel, recordKey, tablesFor } from '../screens/games';
+import { MULT, progress } from '../levels';
 
 const FRUITS = ['🍊', '🍉', '🍎', '🍓', '🍐', '🍇', '🥕', '🍌'];
 const FLY_TIME = 450;
@@ -24,7 +25,7 @@ export function mountFeed(root: HTMLElement, selRaw: string | undefined): () => 
 
   root.innerHTML = `
     <main class="screen screen--game">
-      ${gameHeader(t.feed.title, backHref)}
+      ${topbar(t.feed.title, backHref)}
       <div class="belly" aria-hidden="true">${'<span class="belly-seg"></span>'.repeat(questions.length)}</div>
       <section class="q-card"></section>
       <div class="feed-stage">
@@ -61,7 +62,7 @@ export function mountFeed(root: HTMLElement, selRaw: string | undefined): () => 
     card.className = 'q-card';
     card.innerHTML = `<span>${q.a}</span><span class="op">×</span><span>${q.b}</span><span class="op">=</span><span class="slot slot--empty">?</span>`;
     const fruits = pickFruits(4);
-    fruitRow.innerHTML = choicesFor(q)
+    fruitRow.innerHTML = q.choices
       .map((n, i) => `<button class="fruit" data-value="${n}"><span class="fruit-emoji">${fruits[i]}</span><span class="fruit-num">${n}</span></button>`)
       .join('');
     coach('eat', t.feedPrompt);
@@ -84,7 +85,7 @@ export function mountFeed(root: HTMLElement, selRaw: string | undefined): () => 
 
     busy = true;
     if (!wrongThisQuestion) firstTry++;
-    recordFact(q.table, q.mult, !wrongThisQuestion);
+    progress.recordFact(factKey(q.table, q.mult), !wrongThisQuestion);
     const slot = card.querySelector<HTMLElement>('.slot')!;
     slot.textContent = String(q.answer);
     slot.classList.remove('slot--empty');
@@ -119,14 +120,14 @@ export function mountFeed(root: HTMLElement, selRaw: string | undefined): () => 
 
   function finish(): void {
     const key = recordKey('feed', sel);
-    const newRecord = saveRecord(key, firstTry);
+    const newRecord = progress.saveRecord(key, firstTry);
     main.innerHTML =
-      gameHeader(t.feed.title, backHref) +
+      topbar(t.feed.title, backHref) +
       renderGameResults({
         message: t.feedDone,
         detail: t.score(firstTry, questions.length),
         newRecord,
-        record: getRecord(key),
+        record: progress.getRecord(key),
         backHref,
       });
     sfx.win();

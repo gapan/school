@@ -1,5 +1,4 @@
-import { choicesFor } from '../engine/questions';
-import { sfx } from '../engine/sound';
+import { sfx } from '../core/sound';
 import { shake, type PadFactory } from './pad';
 
 const BUBBLE_COLORS = ['#ff7eb6', '#9b6dff', '#3cc8c8', '#ff9f5a'];
@@ -8,7 +7,7 @@ const BUBBLE_COLORS = ['#ff7eb6', '#9b6dff', '#3cc8c8', '#ff9f5a'];
 export const pickPad: PadFactory = (q, _slot, submit) => {
   const el = document.createElement('div');
   el.className = 'pick-pad';
-  el.innerHTML = choicesFor(q)
+  el.innerHTML = q.choices
     .map((n, i) => `<button class="choice" style="--c:${BUBBLE_COLORS[i]}" data-value="${n}">${n}</button>`)
     .join('');
 

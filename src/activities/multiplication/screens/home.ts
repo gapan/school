@@ -1,11 +1,12 @@
-import { MULT } from '../routes';
-import { t } from '../strings';
-import { mascot } from '../ui/mascot';
-import { castleArt, starsRow } from '../ui/castle';
-import { CASTLE_COLORS, GRAND, MAX_STARS, STAGES, TABLE_ORDER, castleStars, isCastleUnlocked, isGrandUnlocked } from '../engine/levels';
-import { getStars, totalStars } from '../engine/storage';
-import { soundToggle } from '../ui/soundToggle';
-import { STICKERS, earnedStickers } from '../engine/stickers';
+import { t } from '../../../strings';
+import { mascot } from '../../../ui/mascot';
+import { starsRow } from '../../../ui/widgets';
+import { soundToggle } from '../../../ui/soundToggle';
+import { MAX_STARS, STAGES } from '../../../core/stages';
+import { earnedStickers } from '../../../core/stickers';
+import { castleArt } from '../castleArt';
+import { CASTLE_COLORS, GRAND, MULT, TABLE_ORDER, castleStars, isCastleUnlocked, isGrandUnlocked, progress } from '../levels';
+import { STICKERS } from '../stickers';
 
 export function renderHome(): string {
   const castles = TABLE_ORDER.map((n) => {
@@ -25,7 +26,7 @@ export function renderHome(): string {
     <span class="grand-text">
       <strong>${t.grandChallenge}</strong>
       <small>${grandOpen ? t.grandSubtitle : t.grandLocked}</small>
-      ${grandOpen ? starsRow(getStars(GRAND, 'challenge'), MAX_STARS) : `<span class="lock">🔒</span>`}
+      ${grandOpen ? starsRow(progress.getStars(GRAND, 'challenge'), MAX_STARS) : `<span class="lock">🔒</span>`}
     </span>`;
   const grand = grandOpen
     ? `<a class="castle-card castle-card--grand" href="${MULT}/play/grand/challenge">${grandInner}</a>`
@@ -35,7 +36,7 @@ export function renderHome(): string {
     <header class="topbar topbar--home">
       <a class="icon-btn icon-btn--back" href="#/math" aria-label="${t.back}">←</a>
       <h1 class="title">${t.appTitle}</h1>
-      <div class="star-total" aria-label="${t.totalStars}">⭐ ${totalStars()}</div>
+      <div class="star-total" aria-label="${t.totalStars}">⭐ ${progress.totalStars()}</div>
       ${soundToggle()}
     </header>
     <section class="hero">
@@ -43,7 +44,7 @@ export function renderHome(): string {
       <div class="hero-side">
         <p class="bubble">${t.greeting}</p>
         <div class="hero-buttons">
-          <a class="btn btn--alt album-btn" href="${MULT}/album">📒 ${t.albumButton} · ${earnedStickers().length}/${STICKERS.length}</a>
+          <a class="btn btn--alt album-btn" href="${MULT}/album">📒 ${t.albumButton} · ${earnedStickers(STICKERS, progress.totalStars()).length}/${STICKERS.length}</a>
           <a class="btn btn--games album-btn" href="${MULT}/games">🎮 ${t.gamesButton}</a>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { t } from './strings';
-import { routeMultiplication } from './multiplication';
+import { routeMultiplication } from './activities/multiplication';
+import type { MascotFn } from './ui/mascot';
 
 // An activity draws its own screens for every hash below #/<subject>/<activity>.
 export interface Activity {
@@ -8,6 +9,9 @@ export interface Activity {
   title: string;
   subtitle: string;
   route: (app: HTMLElement, parts: string[]) => (() => void) | void;
+  // Optional look of its own: a `data-theme` value for styles.css and a mascot.
+  theme?: string;
+  mascot?: MascotFn;
 }
 
 export interface Subject {

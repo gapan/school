@@ -1,8 +1,9 @@
 import '@fontsource-variable/comfortaa';
 import './styles.css';
 import { findSubject, SUBJECTS } from './catalog';
-import { renderSubject, renderSubjects } from './screens/hub';
-import { isSoundOn, setSound } from './engine/storage';
+import { renderSubject, renderSubjects } from './ui/hub';
+import { setMascot } from './ui/mascot';
+import { isSoundOn, setSound } from './core/storage';
 import { soundToggle } from './ui/soundToggle';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
@@ -20,6 +21,8 @@ function route(): void {
   const [subjectId, activityId, ...rest] = location.hash.replace(/^#\/?/, '').split('/');
   const subject = findSubject(subjectId);
   const activity = subject?.activities.find((a) => a.id === activityId);
+  document.documentElement.dataset.theme = activity?.theme ?? '';
+  setMascot(activity?.mascot);
 
   if (activity) cleanup = activity.route(app, rest) ?? null;
   else if (subject) app.innerHTML = `<main class="screen">${renderSubject(subject)}</main>`;

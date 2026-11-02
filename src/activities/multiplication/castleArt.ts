@@ -18,11 +18,3 @@ export function castleArt(color: string, label: string, locked = false): string 
   <circle cx="95" cy="58" r="4" fill="#fff" opacity=".8"/>
 </svg>`;
 }
-
-export function starsRow(earned: number, max: number): string {
-  let out = '';
-  for (let i = 0; i < max; i++) {
-    out += `<span class="star ${i < earned ? 'star--on' : ''}">★</span>`;
-  }
-  return `<span class="stars" aria-label="${earned} / ${max}">${out}</span>`;
-}

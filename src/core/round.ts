@@ -1,100 +1,65 @@
-import { MULT } from '../routes';
 import { t } from '../strings';
 import { mascot, type Mood } from '../ui/mascot';
 import { confetti } from '../ui/confetti';
-import { soundToggle } from '../ui/soundToggle';
-import {
-  GRAND,
-  STAGES,
-  TABLE_ORDER,
-  TIME_LIMIT,
-  isCastleUnlocked,
-  isGrandUnlocked,
-  isStageUnlocked,
-  passedTablesBefore,
-  type StageId,
-} from '../engine/levels';
-import { makeMixedRound, makeRound, starsFor, type Question } from '../engine/questions';
-import { recordFact, recordStars, totalStars } from '../engine/storage';
-import { earnedStickers } from '../engine/stickers';
-import { sfx } from '../engine/sound';
-import type { AnswerPad, PadFactory } from '../games/pad';
-import { pickPad } from '../games/pickPad';
-import { typePad } from '../games/typePad';
-import { renderResults } from './results';
+import { topbar } from '../ui/widgets';
+import { renderResults } from '../ui/results';
+import { sfx } from './sound';
+import type { Sticker } from './stickers';
+import type { AnswerPad, PadFactory } from '../pads/pad';
 
 const MAX_ATTEMPTS = 2;
 const NEXT_DELAY = 1100;
 const REVEAL_DELAY = 2600;
 
-interface RoundConfig {
+// The "?" box in a question card, filled in by the answer pad.
+export const SLOT = '<span class="slot slot--empty">?</span>';
+
+export interface RoundQuestion {
+  // HTML for the question card; must contain one SLOT.
+  card: string;
+  answer: number;
+  choices: number[];
+  // Shown after a first wrong answer in untimed stages.
+  hint: string;
+  // Optional picture shown with the hint.
+  hintVisual?: string;
+  // The whole statement with the answer, e.g. "4 × 3 = 12".
+  fact: string;
+}
+
+export interface RoundOutcome {
+  stars: number;
+  unlocked: string[];
+  newStickers: Sticker[];
+}
+
+export interface RoundConfig<Q extends RoundQuestion> {
   title: string;
   backHref: string;
-  questions: Question[];
+  albumHref: string;
+  questions: Q[];
   pad: PadFactory;
+  prompt: string;
   // Seconds per question; undefined means untimed.
   timeLimit?: number;
+  onAnswer(q: Q, firstTry: boolean): void;
+  // Saves the result and reports what it earned.
+  onFinish(firstTry: number): RoundOutcome;
 }
 
-function roundConfig(table: number, stage: StageId): RoundConfig {
-  if (table === GRAND) {
-    return {
-      title: t.grandChallenge,
-      backHref: MULT,
-      questions: makeMixedRound(TABLE_ORDER, []),
-      pad: typePad,
-      timeLimit: TIME_LIMIT.grand,
-    };
-  }
-  const base = { title: `${t.castle(table)} · ${t.stages[stage].title}`, backHref: `${MULT}/castle/${table}` };
-  if (stage === 'challenge') {
-    return {
-      ...base,
-      questions: makeMixedRound([table], passedTablesBefore(table)),
-      pad: typePad,
-      timeLimit: TIME_LIMIT.castle,
-    };
-  }
-  return { ...base, questions: makeRound(table), pad: stage === 'pick' ? pickPad : typePad };
-}
-
-function hintText(q: Question): string {
-  if (q.a === 1 || q.b === 1) return t.hintOne;
-  return t.hint(q.a, q.b);
-}
-
-function header(cfg: RoundConfig): string {
-  return `
-    <header class="topbar">
-      <a class="btn btn--small" href="${cfg.backHref}">← ${t.back}</a>
-      <h1 class="title">${cfg.title}</h1>
-      ${soundToggle()}
-    </header>`;
-}
-
-// Snapshot of what is open, to detect what a round unlocked.
-function unlockState(table: number) {
-  const next = TABLE_ORDER[TABLE_ORDER.indexOf(table) + 1];
-  return {
-    stages: STAGES.map((s) => isStageUnlocked(table, s.id)),
-    next,
-    nextCastle: next !== undefined && isCastleUnlocked(next),
-    grand: isGrandUnlocked(),
-  };
-}
-
-// Mounts a game round and returns a cleanup function for when the player leaves.
-export function mountPlay(root: HTMLElement, table: number, stage: StageId): () => void {
-  const cfg = roundConfig(table, stage);
+// Mounts a round of questions and returns a cleanup function for when the player leaves.
+export function mountRound<Q extends RoundQuestion>(root: HTMLElement, cfg: RoundConfig<Q>): () => void {
   const { questions, timeLimit } = cfg;
+  const header = topbar(cfg.title, cfg.backHref);
 
   root.innerHTML = `
     <main class="screen screen--game">
-      ${header(cfg)}
+      ${header}
       <div class="progress">${'<span class="dot"></span>'.repeat(questions.length)}</div>
       ${timeLimit ? '<div class="timer"><div class="timer-fill"></div></div>' : ''}
       <section class="q-card"></section>
       <div class="coach"><div class="coach-mascot"></div><p class="bubble coach-text"></p></div>
+      <div class="hint-visual" hidden></div>
       <div class="pad-area"></div>
     </main>`;
 
@@ -104,6 +69,7 @@ export function mountPlay(root: HTMLElement, table: number, stage: StageId): () 
   const timerFill = root.querySelector<HTMLElement>('.timer-fill');
   const coachMascot = root.querySelector<HTMLElement>('.coach-mascot')!;
   const coachText = root.querySelector<HTMLElement>('.coach-text')!;
+  const hintVisual = root.querySelector<HTMLElement>('.hint-visual')!;
   const padArea = root.querySelector<HTMLElement>('.pad-area')!;
 
   let index = 0;
@@ -149,19 +115,30 @@ export function mountPlay(root: HTMLElement, table: number, stage: StageId): () 
     timerFill.style.transition = 'none';
   }
 
+  function showHintVisual(html: string | undefined): void {
+    hintVisual.hidden = !html;
+    hintVisual.innerHTML = html ?? '';
+  }
+
   function showQuestion(): void {
     const q = questions[index];
     attempts = 0;
     busy = false;
     dots.forEach((d, i) => d.classList.toggle('dot--current', i === index));
     card.className = 'q-card';
-    card.innerHTML = `<span>${q.a}</span><span class="op">×</span><span>${q.b}</span><span class="op">=</span><span class="slot slot--empty">?</span>`;
+    card.innerHTML = q.card;
     slot = card.querySelector<HTMLElement>('.slot')!;
-    coach('happy', timeLimit ? t.stages.challenge.prompt : t.stages[stage].prompt);
+    coach('happy', cfg.prompt);
+    showHintVisual(undefined);
     pad?.destroy?.();
     pad = cfg.pad(q, slot, submit);
     padArea.replaceChildren(pad.el);
     startTimer();
+  }
+
+  function fillSlot(): void {
+    slot.textContent = String(questions[index].answer);
+    slot.classList.remove('slot--empty');
   }
 
   function submit(value: number): void {
@@ -173,10 +150,9 @@ export function mountPlay(root: HTMLElement, table: number, stage: StageId): () 
       stopTimer();
       const first = attempts === 0;
       if (first) firstTry++;
-      recordFact(q.table, q.mult, first);
+      cfg.onAnswer(q, first);
       dots[index].classList.add(first ? 'dot--right' : 'dot--wrong');
-      slot.textContent = String(q.answer);
-      slot.classList.remove('slot--empty');
+      fillSlot();
       card.classList.add('q-card--right');
       pad.right(value);
       sfx.correct();
@@ -190,7 +166,8 @@ export function mountPlay(root: HTMLElement, table: number, stage: StageId): () 
     sfx.wrong();
     if (attempts < MAX_ATTEMPTS) {
       // No time to read a long hint while the clock is running.
-      coach('think', timeLimit ? t.tryAgain : `${t.tryAgain} ${hintText(q)}`);
+      coach('think', timeLimit ? t.tryAgain : `${t.tryAgain} ${q.hint}`);
+      if (!timeLimit) showHintVisual(q.hintVisual);
       return;
     }
     reveal('');
@@ -206,13 +183,12 @@ export function mountPlay(root: HTMLElement, table: number, stage: StageId): () 
     const q = questions[index];
     busy = true;
     stopTimer();
-    recordFact(q.table, q.mult, false);
+    cfg.onAnswer(q, false);
     dots[index].classList.add('dot--wrong');
-    slot.textContent = String(q.answer);
-    slot.classList.remove('slot--empty');
+    fillSlot();
     card.classList.add('q-card--reveal');
     pad?.reveal(q.answer);
-    coach('think', prefix + t.reveal(`${q.a} × ${q.b}`, q.answer));
+    coach('think', prefix + t.reveal(q.fact));
     later(next, REVEAL_DELAY);
   }
 
@@ -225,23 +201,19 @@ export function mountPlay(root: HTMLElement, table: number, stage: StageId): () 
   function finish(): void {
     pad?.destroy?.();
     pad = null;
-    const before = unlockState(table);
-    const stickersBefore = earnedStickers().length;
-    const stars = starsFor(firstTry);
-    recordStars(table, stage, stars);
-    const after = unlockState(table);
-    const newStickers = earnedStickers(totalStars()).slice(stickersBefore);
-
-    const unlocked: string[] = [];
-    STAGES.forEach((s, i) => {
-      if (!before.stages[i] && after.stages[i]) unlocked.push(t.unlockedStage(t.stages[s.id].title));
-    });
-    if (!before.nextCastle && after.nextCastle) unlocked.push(t.unlockedCastle(after.next));
-    if (!before.grand && after.grand) unlocked.push(t.unlockedGrand);
+    const { stars, unlocked, newStickers } = cfg.onFinish(firstTry);
 
     main.innerHTML =
-      header(cfg) +
-      renderResults({ continueHref: cfg.backHref, stars, firstTry, total: questions.length, unlocked, newStickers });
+      header +
+      renderResults({
+        continueHref: cfg.backHref,
+        albumHref: cfg.albumHref,
+        stars,
+        firstTry,
+        total: questions.length,
+        unlocked,
+        newStickers,
+      });
 
     sfx.win();
     for (let i = 0; i < stars; i++) later(() => sfx.star(i), 600 + i * 350);

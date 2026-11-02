@@ -1,12 +1,4 @@
-import { totalStars } from './storage';
-
-export interface Sticker {
-  emoji: string;
-  name: string;
-  // Total stars needed to earn it (best stars per stage, so this never goes down).
-  stars: number;
-  color: string;
-}
+import type { Sticker } from '../../core/stickers';
 
 // The last sticker needs every star in the game: 9 castles × 9 + 3 for the grand challenge.
 export const STICKERS: Sticker[] = [
@@ -29,17 +21,3 @@ export const STICKERS: Sticker[] = [
   { emoji: '🌟', name: 'Αστέρι', stars: 78, color: '#fff6c9' },
   { emoji: '👑', name: 'Κορώνα', stars: 84, color: '#ffefb0' },
 ];
-
-export function earnedStickers(total = totalStars()): Sticker[] {
-  return STICKERS.filter((s) => total >= s.stars);
-}
-
-export function nextSticker(total = totalStars()): Sticker | undefined {
-  return STICKERS.find((s) => total < s.stars);
-}
-
-export function stickerBadge(s: Sticker, earned = true): string {
-  return earned
-    ? `<span class="sticker" style="--bg:${s.color}">${s.emoji}</span>`
-    : `<span class="sticker sticker--locked">?</span>`;
-}

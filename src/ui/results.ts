@@ -1,11 +1,11 @@
-import { MULT } from '../routes';
 import { t } from '../strings';
-import { mascot } from '../ui/mascot';
-import { MAX_STARS } from '../engine/levels';
-import { stickerBadge, type Sticker } from '../engine/stickers';
+import { mascot } from './mascot';
+import { MAX_STARS } from '../core/stages';
+import { stickerBadge, type Sticker } from '../core/stickers';
 
 export interface RoundResult {
   continueHref: string;
+  albumHref: string;
   stars: number;
   firstTry: number;
   total: number;
@@ -19,7 +19,7 @@ export function renderResults(r: RoundResult): string {
     stars += `<span class="big-star ${i < r.stars ? 'big-star--on' : ''}" style="--i:${i}">★</span>`;
   }
   const stickers = r.newStickers.length
-    ? `<a class="new-sticker" href="${MULT}/album">
+    ? `<a class="new-sticker" href="${r.albumHref}">
         <span class="new-sticker-title">🎉 ${t.newSticker}</span>
         <span class="new-sticker-list">${r.newStickers.map((s) => stickerBadge(s)).join('')}</span>
         <span>${r.newStickers.map((s) => s.name).join(', ')}</span>
@@ -38,6 +38,22 @@ export function renderResults(r: RoundResult): string {
       <div class="results-actions">
         <button class="btn btn--alt" data-action="replay">↻ ${t.playAgain}</button>
         <a class="btn" href="${r.continueHref}">${t.continue} →</a>
+      </div>
+    </section>
+  `;
+}
+
+// End screen of an extra game (no stars, just a personal record).
+export function renderGameResults(opts: { message: string; detail?: string; newRecord: boolean; record?: number; backHref: string }): string {
+  return `
+    <section class="results">
+      ${mascot('cheer', 150)}
+      <h2 class="results-title">${opts.message}</h2>
+      ${opts.detail ? `<p class="results-score">${opts.detail}</p>` : ''}
+      ${opts.newRecord ? `<p class="unlock-banner">🏆 ${t.newRecord}</p>` : opts.record !== undefined ? `<p class="results-score">🏆 ${t.record(opts.record)}</p>` : ''}
+      <div class="results-actions">
+        <button class="btn btn--alt" data-action="replay">↻ ${t.playAgain}</button>
+        <a class="btn" href="${opts.backHref}">${t.games} →</a>
       </div>
     </section>
   `;
