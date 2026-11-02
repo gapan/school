@@ -2,7 +2,8 @@
 export const t = {
   // Class and activity pickers
   hubTitle: 'Τι θα μάθουμε σήμερα;',
-  hubGreeting: 'Γεια σου! Είμαι ο Κάπι! Διάλεξε μάθημα και πάμε να παίξουμε μαζί!',
+  menuMascotName: 'Καμηλοπάρδαλη',
+  hubGreeting: 'Γεια σου! Διάλεξε μάθημα και πάμε να παίξουμε μαζί!',
   subjectGreeting: 'Τέλεια επιλογή! Τώρα διάλεξε με τι θα παίξουμε!',
   subjects: {
     math: { title: 'Μαθηματικά', subtitle: 'Αριθμοί, πράξεις και πολλά παιχνίδια' },

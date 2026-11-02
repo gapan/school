@@ -139,12 +139,14 @@ src/
                        per-activity progress storage (localStorage), sound effects
   pads/                answer pads: four bubbles, number pad
   ui/                  shared screens and widgets: class/activity pickers, level screen,
-                       results, album, parent corner, Kapi, confetti
+                       results, album, parent corner, mascot images, confetti
   activities/
     multiplication/    router, levels, questions, stickers, castle art, screens, Match and Feed Kapi
     length/            router, levels, units and questions, stickers, mascot, tower art,
                        screens, Ruler and Longer
-public/favicon.svg
+public/
+  favicon.svg
+  mascots/             mascot images (see Customising)
 ```
 
 ## Customising
@@ -156,4 +158,4 @@ public/favicon.svg
 - **Number ranges for lengths:** `MAX_BIG` in `src/activities/length/units.ts`.
 - **Star thresholds:** `starsFor` in `src/core/stages.ts`.
 - **Stickers:** `STICKERS` in each activity's `stickers.ts`.
-- **Mascots:** Kapi is drawn in `src/ui/mascot.ts` (and `public/favicon.svg` for the browser tab). The length mascot is the image `public/mascots/length.svg`; optional `length-cheer.svg`, `length-think.svg` and `length-eat.svg` next to it are used for those moods.
+- **Mascots:** image files in `public/mascots/`: `menu.svg` (the giraffe on the class and activity pickers), `multiplication.svg` (Kapi) and `length.svg`. Optional `<name>-cheer.svg`, `<name>-think.svg` and `<name>-eat.svg` files are used for those moods and fall back to `<name>.svg`. The browser-tab icon is `public/favicon.svg`.

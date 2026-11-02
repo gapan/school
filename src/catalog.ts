@@ -1,8 +1,7 @@
 import { t } from './strings';
 import { routeMultiplication } from './activities/multiplication';
 import { routeLength } from './activities/length';
-import { lengthMascot } from './activities/length/mascot';
-import type { MascotFn } from './ui/mascot';
+import { fileMascot, type MascotFn } from './ui/mascot';
 
 // An activity draws its own screens for every hash below #/<subject>/<activity>.
 export interface Activity {
@@ -31,8 +30,8 @@ export const SUBJECTS: Subject[] = [
     icon: '🔢',
     ...t.subjects.math,
     activities: [
-      { id: 'multiplication', icon: '🏰', ...t.activities.multiplication, route: routeMultiplication },
-      { id: 'length', icon: '📏', ...t.activities.length, route: routeLength, theme: 'length', mascot: lengthMascot },
+      { id: 'multiplication', icon: '🏰', ...t.activities.multiplication, route: routeMultiplication, mascot: fileMascot('multiplication', t.mascotName) },
+      { id: 'length', icon: '📏', ...t.activities.length, route: routeLength, theme: 'length', mascot: fileMascot('length', t.length.mascotName) },
     ],
   },
 ];
