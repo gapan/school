@@ -7,7 +7,7 @@ A small, child-friendly web app for practising primary-school maths, made for a 
 It currently has two activities:
 
 - **Multiplication Kingdom:** the times tables, guided by **Kapi**, a capybara in a party hat.
-- **Land of Measures:** converting lengths between metres, decimetres, centimetres and millimetres, guided by **Blip**, a small blue alien, in a light blue theme.
+- **Land of Measures:** converting lengths between metres, decimetres, centimetres and millimetres, in a light blue theme, with its own mascot.
 
 The guides cheer on right answers, give gentle hints after mistakes and never punish.
 
@@ -142,7 +142,7 @@ src/
                        results, album, parent corner, Kapi, confetti
   activities/
     multiplication/    router, levels, questions, stickers, castle art, screens, Match and Feed Kapi
-    length/            router, levels, units and questions, stickers, Blip, tower art,
+    length/            router, levels, units and questions, stickers, mascot, tower art,
                        screens, Ruler and Longer
 public/favicon.svg
 ```
@@ -156,4 +156,4 @@ public/favicon.svg
 - **Number ranges for lengths:** `MAX_BIG` in `src/activities/length/units.ts`.
 - **Star thresholds:** `starsFor` in `src/core/stages.ts`.
 - **Stickers:** `STICKERS` in each activity's `stickers.ts`.
-- **Mascots:** Kapi in `src/ui/mascot.ts` (and `public/favicon.svg` for the browser tab), Blip in `src/activities/length/mascot.ts`.
+- **Mascots:** Kapi is drawn in `src/ui/mascot.ts` (and `public/favicon.svg` for the browser tab). The length mascot is the image `public/mascots/length.svg`; optional `length-cheer.svg`, `length-think.svg` and `length-eat.svg` next to it are used for those moods.

@@ -1417,3 +1417,8 @@ a.stage-card:active {
 :root[data-theme='length'] .castle-card--grand {
   background: linear-gradient(135deg, #fff7d6, #dcefff);
 }
+
+/* Mascots supplied as image files keep their proportions */
+img.mascot {
+  object-fit: contain;
+}
