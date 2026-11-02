@@ -21,7 +21,8 @@ function route(): void {
   const [subjectId, activityId, ...rest] = location.hash.replace(/^#\/?/, '').split('/');
   const subject = findSubject(subjectId);
   const activity = subject?.activities.find((a) => a.id === activityId);
-  document.documentElement.dataset.theme = activity?.theme ?? '';
+  // The class and activity pickers have a light yellow look of their own.
+  document.documentElement.dataset.theme = activity ? (activity.theme ?? '') : 'menu';
   setMascot(activity?.mascot);
 
   if (activity) cleanup = activity.route(app, rest) ?? null;

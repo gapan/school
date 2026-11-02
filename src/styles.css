@@ -17,6 +17,12 @@
   color: var(--ink);
 }
 
+/* Light yellow background of the class and activity pickers, to match the giraffe */
+:root[data-theme='menu'] {
+  --bg-top: #fff8d6;
+  --bg-bottom: #ffeaa8;
+}
+
 /* Light blue theme of the length activity */
 :root[data-theme='length'] {
   --ink: #1f3d5c;
