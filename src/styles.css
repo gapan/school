@@ -3,7 +3,10 @@
   --ink-soft: #7a5a8c;
   --card: #ffffff;
   --pink: #ff7eb6;
+  --pink-dark: #d9568f;
   --purple: #9b6dff;
+  --purple-dark: #7449d6;
+  --soft: #f6f0fc;
   --yellow: #ffd23f;
   --star-off: #e6dcef;
   --bg-top: #ffe1f0;
@@ -12,6 +15,21 @@
   --shadow: 0 6px 0 rgba(74, 42, 90, 0.12);
   font-family: 'Comfortaa Variable', 'Comfortaa', system-ui, sans-serif;
   color: var(--ink);
+}
+
+/* Light blue theme of the length activity */
+:root[data-theme='length'] {
+  --ink: #1f3d5c;
+  --ink-soft: #4f6f8f;
+  --pink: #22a6e0;
+  --pink-dark: #1681b3;
+  --purple: #4c7bf0;
+  --purple-dark: #3158c4;
+  --soft: #eaf4ff;
+  --star-off: #d6e6f5;
+  --bg-top: #e3f5ff;
+  --bg-bottom: #c6e6ff;
+  --shadow: 0 6px 0 rgba(31, 61, 92, 0.12);
 }
 
 * {
@@ -94,14 +112,14 @@ a {
   font: inherit;
   font-weight: 700;
   font-size: 1.15rem;
-  box-shadow: 0 6px 0 #d9568f;
+  box-shadow: 0 6px 0 var(--pink-dark);
   cursor: pointer;
   transition: transform 0.08s, box-shadow 0.08s;
 }
 
 .btn:active {
   transform: translateY(4px);
-  box-shadow: 0 2px 0 #d9568f;
+  box-shadow: 0 2px 0 var(--pink-dark);
 }
 
 .btn--small {
@@ -332,11 +350,11 @@ a.stage-card:active {
 
 .btn--alt {
   background: var(--purple);
-  box-shadow: 0 6px 0 #7449d6;
+  box-shadow: 0 6px 0 var(--purple-dark);
 }
 
 .btn--alt:active {
-  box-shadow: 0 2px 0 #7449d6;
+  box-shadow: 0 2px 0 var(--purple-dark);
 }
 
 .shake {
@@ -412,7 +430,7 @@ a.stage-card:active {
   min-width: 1.6em;
   padding: 0 0.15em;
   border-radius: 16px;
-  background: #f6f0fc;
+  background: var(--soft);
   color: var(--purple);
   text-align: center;
 }
@@ -713,7 +731,9 @@ a.stage-card:active {
 
 .album-btn {
   min-height: 48px;
-  font-size: 1.05rem;
+  padding: 0 16px;
+  font-size: 1rem;
+  white-space: nowrap;
 }
 
 .sticker {
@@ -1234,4 +1254,166 @@ a.stage-card:active {
   .topbar--home .star-total {
     margin-left: auto;
   }
+}
+
+/* ---------- Length activity ---------- */
+.q-card:has(.unit) {
+  flex-wrap: wrap;
+  gap: 0.25em;
+  font-size: clamp(1.9rem, 9vw, 3.4rem);
+}
+
+.unit {
+  color: var(--ink-soft);
+  font-size: 0.6em;
+}
+
+.choice .unit {
+  color: inherit;
+}
+
+/* The unit staircase shown with hints */
+.hint-visual {
+  margin-bottom: 12px;
+  padding: 12px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.stairs {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+}
+
+.stair {
+  display: grid;
+  place-items: center;
+  min-width: 52px;
+  height: 40px;
+  margin-top: calc(var(--step) * 12px);
+  border-radius: 12px;
+  background: var(--star-off);
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.stair--on {
+  background: var(--pink);
+  color: #fff;
+}
+
+.stair-arrow {
+  margin-top: calc(var(--step) * 12px + 24px);
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  font-weight: 700;
+  opacity: 0.4;
+}
+
+.stair-arrow--on {
+  color: var(--purple);
+  opacity: 1;
+}
+
+.stairs-caption {
+  margin: 8px 0 0;
+  font-weight: 700;
+  color: var(--purple);
+}
+
+/* Games: ruler and compare */
+.q-card--picture {
+  flex-direction: column;
+  font-size: clamp(1.6rem, 7vw, 2.6rem);
+}
+
+.ruler {
+  width: 100%;
+  max-width: 520px;
+}
+
+.picture-q {
+  margin: 4px 0 0;
+}
+
+.compare {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  flex-wrap: wrap;
+}
+
+.length-box {
+  padding: 0.2em 0.5em;
+  border-radius: 18px;
+  background: var(--soft);
+}
+
+.tap-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.tap-option {
+  flex: 1 1 40%;
+  aspect-ratio: auto;
+  min-height: 72px;
+  padding: 8px 12px;
+  background: var(--pink);
+  font-size: clamp(1.3rem, 6vw, 2rem);
+}
+
+/* Three options (compare): one row */
+.tap-options:has(> :nth-child(3):last-child) .tap-option {
+  flex-basis: 28%;
+  font-size: clamp(1.1rem, 5vw, 1.8rem);
+}
+
+.tap-options.pick-pad--done .tap-option:not(.choice--right) {
+  opacity: 0.25;
+}
+
+/* Parent corner */
+.mastery-grid--units {
+  grid-template-columns: auto repeat(4, 1fr);
+  max-width: 420px;
+  font-size: 0.9rem;
+}
+
+.mastery-grid--units .grid-cell {
+  aspect-ratio: auto;
+  min-height: 36px;
+}
+
+.mixed-stats {
+  display: grid;
+  gap: 6px;
+  max-width: 420px;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.mixed-stats li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mixed-stats .grid-cell {
+  aspect-ratio: auto;
+  min-width: 64px;
+  min-height: 30px;
+}
+
+:root[data-theme='length'] .castle-card--grand {
+  background: linear-gradient(135deg, #fff7d6, #dcefff);
 }

@@ -1,5 +1,7 @@
 import { t } from './strings';
 import { routeMultiplication } from './activities/multiplication';
+import { routeLength } from './activities/length';
+import { blip } from './activities/length/mascot';
 import type { MascotFn } from './ui/mascot';
 
 // An activity draws its own screens for every hash below #/<subject>/<activity>.
@@ -28,7 +30,10 @@ export const SUBJECTS: Subject[] = [
     id: 'math',
     icon: '🔢',
     ...t.subjects.math,
-    activities: [{ id: 'multiplication', icon: '🏰', ...t.activities.multiplication, route: routeMultiplication }],
+    activities: [
+      { id: 'multiplication', icon: '🏰', ...t.activities.multiplication, route: routeMultiplication },
+      { id: 'length', icon: '📏', ...t.activities.length, route: routeLength, theme: 'length', mascot: blip },
+    ],
   },
 ];
 

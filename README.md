@@ -1,16 +1,23 @@
-# Multiplication Kingdom
+# School
 
-A small, child-friendly web app for practising the multiplication tables, made for a 7-year-old who already knows the basics and wants to test herself while having fun. It is designed for tablets and phones and builds to a fully static site that can be hosted anywhere (GitHub Pages out of the box).
+A small, child-friendly web app for practising primary-school maths, made for a 7-year-old who already knows the basics and wants to test herself while having fun. It is designed for tablets and phones and builds to a fully static site that can be hosted anywhere (GitHub Pages out of the box).
 
 **The app's interface is entirely in Greek.** This README uses English translations for the names of screens, stages and games.
 
-The guide is **Kapi**, a capybara in a party hat, who cheers on right answers, gives gentle hints after mistakes and never punishes.
+It currently has two activities:
+
+- **Multiplication Kingdom:** the times tables, guided by **Kapi**, a capybara in a party hat.
+- **Land of Measures:** converting lengths between metres, decimetres, centimetres and millimetres, guided by **Blip**, a small blue alien, in a light blue theme.
+
+The guides cheer on right answers, give gentle hints after mistakes and never punish.
 
 ## Features
 
 ### Classes and activities
 
-The app opens on a class picker, then an activity picker for that class, so more school subjects and activities can be added over time. For now there is one class, **Maths**, with one activity, **Multiplication Kingdom**, described below.
+The app opens on a class picker, then an activity picker for that class, so more school subjects and activities can be added over time. For now there is one class, **Maths**, with the two activities below. Each activity keeps its own progress, sticker album and parent corner.
+
+## Multiplication Kingdom
 
 ### The castle map
 
@@ -54,17 +61,48 @@ Reached through the small **Parents** link at the bottom of the home screen, beh
 - a switch to unlock every castle (useful if the first ones are too easy),
 - a button to reset all progress and start from scratch.
 
-### Other details
+## Land of Measures
+
+Length conversion between metres, decimetres, centimetres and millimetres. The app writes them with the abbreviations taught in Greek schools; this README uses m, dm, cm and mm. Every answer is a whole number, since decimals come later in school, and every length stays within 10 m.
+
+### Towers
+
+The levels are towers with the same Pick / Type / Challenge stages, stars and unlock rules as the castles (15 s per question in Challenges, 12 s in the Grand Challenge):
+
+| Tower | Converts |
+| --- | --- |
+| Metres and centimetres | m ↔ cm |
+| Centimetres and millimetres | cm ↔ mm |
+| Decimetres | dm ↔ cm, m ↔ dm |
+| Big jumps | m ↔ mm, dm ↔ mm |
+| All units | every pair |
+| Mixed units | e.g. *2 m 35 cm = ? cm*, *235 cm = ? m 35 cm* |
+| Grand Challenge | everything, timed |
+
+- Converting to a bigger unit only uses lengths that divide exactly (e.g. 400 cm = 4 m, never 450 cm).
+- After a wrong answer, a hint (e.g. *"Think: ? × 100 = 300, because 100 cm make 1 m"*) comes with a **unit staircase** picture: m → dm → cm → mm, with ×10 on each step and the steps between the two units highlighted.
+- Wrong answer choices are the classic slips: a zero too many or too few, or not converting at all.
+
+### Extra games
+
+- **Ruler:** read the length of a pencil lying on a 10 cm ruler, in centimetres or millimetres.
+- **Longer:** two lengths in different units (e.g. 3 dm and 40 cm); tap the longer one, or "Equal".
+
+### Parent corner and album
+
+The parent corner shows a from-unit / to-unit grid with the share of first-try right answers, the mixed-unit conversions, the hardest conversions, an unlock-all switch and a reset (which only affects this activity). The 18 stickers have a sea and space theme.
+
+## Other details
 
 - Sound effects are synthesised with the Web Audio API, so there are no audio files; a sound on/off toggle remembers the choice.
-- All progress is stored in the browser's `localStorage` on the device. There are no accounts, no server and no tracking.
+- All progress is stored in the browser's `localStorage` on the device, separately per activity. There are no accounts, no server and no tracking.
 - Touch-first layout with large buttons; a physical keyboard also works on the number pad.
 
 ## Tech stack
 
 - [Vite](https://vite.dev/) + TypeScript, no UI framework
 - [Comfortaa](https://fonts.google.com/specimen/Comfortaa) (self-hosted via `@fontsource-variable/comfortaa`, includes the Greek character set)
-- Hash-based routing (`#/math`, `#/math/multiplication/castle/3`, …) so the site works on static hosting without rewrites
+- Hash-based routing (`#/math`, `#/math/multiplication/castle/3`, `#/math/length/level/m-cm`, …) so the site works on static hosting without rewrites
 - Relative asset paths (`base: './'`), so the build works under any sub-path
 
 ## Getting started
@@ -93,31 +131,29 @@ Because the build is plain static files, `dist/` can also be uploaded to any oth
 
 ```
 src/
-  main.ts            top-level router (class → activity) and global click handling
-  catalog.ts         the list of classes and their activities
-  multiplication.ts  router for the multiplication screens
-  routes.ts          URL prefix of the multiplication activity
-  strings.ts         all user-facing text (in Greek)
-  styles.css         theme and layout
-  engine/
-    levels.ts        table order, stages, unlock rules, time limits
-    questions.ts     round generation, answer choices, star thresholds
-    stickers.ts      sticker list and milestones
-    storage.ts       progress, fact stats, settings, records (localStorage)
-    sound.ts         synthesised sound effects
-  screens/           class and activity pickers (hub), and the multiplication screens: home, castle, play (round flow), results, album, games hub, parent corner
-  games/             answer pads (bubbles, number pad) and the extra games
-  ui/                mascot, castle art, confetti, sound toggle
+  main.ts              top-level router (class → activity) and global click handling
+  catalog.ts           the list of classes and their activities (with theme and mascot)
+  strings.ts           all user-facing text (in Greek)
+  styles.css           layout, the default theme and the light blue length theme
+  core/                shared logic: round flow, stages and unlock rules, stickers,
+                       per-activity progress storage (localStorage), sound effects
+  pads/                answer pads: four bubbles, number pad
+  ui/                  shared screens and widgets: class/activity pickers, level screen,
+                       results, album, parent corner, Kapi, confetti
+  activities/
+    multiplication/    router, levels, questions, stickers, castle art, screens, Match and Feed Kapi
+    length/            router, levels, units and questions, stickers, Blip, tower art,
+                       screens, Ruler and Longer
 public/favicon.svg
 ```
 
 ## Customising
 
-- **Adding a class or activity:** add an entry to `SUBJECTS` in `src/catalog.ts` (with its titles in `src/strings.ts`). An activity provides a `route(app, parts)` function that draws its screens for every URL below `#/<class>/<activity>/` and may return a cleanup function; see `src/multiplication.ts`.
-
-- **Text:** almost every string shown in the app lives in `src/strings.ts`. To change the app's language, also translate the sticker names in `src/engine/stickers.ts`, the number-pad button labels in `src/games/typePad.ts`, and the page title and `lang` attribute in `index.html`.
-- **Time limits:** `TIME_LIMIT` in `src/engine/levels.ts`.
-- **Table order and castle colours:** `TABLE_ORDER` and `CASTLE_COLORS` in `src/engine/levels.ts`.
-- **Star thresholds:** `starsFor` in `src/engine/questions.ts`.
-- **Stickers:** `STICKERS` in `src/engine/stickers.ts`.
-- **Mascot:** the SVG in `src/ui/mascot.ts` (and `public/favicon.svg` for the browser tab).
+- **Adding a class or activity:** add an entry to `SUBJECTS` in `src/catalog.ts` (with its titles in `src/strings.ts`). An activity provides a `route(app, parts)` function that draws its screens for every URL below `#/<class>/<activity>/` and may return a cleanup function, and can set a `theme` (styled in `styles.css` under `:root[data-theme='…']`) and its own `mascot`. The two existing activities in `src/activities/` show how to reuse the shared round flow, level screen, album and parent corner.
+- **Text:** almost every string shown in the app lives in `src/strings.ts`. To change the app's language, also translate the sticker names in each activity's `stickers.ts`, the number-pad button labels in `src/pads/typePad.ts`, and the page title and `lang` attribute in `index.html`.
+- **Time limits:** `TIME_LIMIT` in each activity's `levels.ts`.
+- **Levels:** `TABLE_ORDER` and `CASTLE_COLORS` in `src/activities/multiplication/levels.ts`; `LEVELS` in `src/activities/length/levels.ts`.
+- **Number ranges for lengths:** `MAX_BIG` in `src/activities/length/units.ts`.
+- **Star thresholds:** `starsFor` in `src/core/stages.ts`.
+- **Stickers:** `STICKERS` in each activity's `stickers.ts`.
+- **Mascots:** Kapi in `src/ui/mascot.ts` (and `public/favicon.svg` for the browser tab), Blip in `src/activities/length/mascot.ts`.

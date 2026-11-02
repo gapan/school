@@ -9,6 +9,7 @@ export const t = {
   },
   activities: {
     multiplication: { title: 'Το Βασίλειο του Πολλαπλασιασμού', subtitle: 'Κάστρα, αστεράκια και παιχνίδια με την προπαίδεια' },
+    length: { title: 'Η Χώρα των Μέτρων', subtitle: 'Μέτρα, δεκατόμετρα, εκατοστά και χιλιοστά' },
   },
 
   appTitle: 'Το Βασίλειο του Πολλαπλασιασμού',
@@ -35,7 +36,7 @@ export const t = {
   hintOne: 'Κάθε αριθμός επί 1 μένει ίδιος!',
   hint: (a: number, b: number) => `Θυμήσου: ${a} × ${b - 1} = ${a * (b - 1)}, και άλλο ένα ${a}!`,
   timeUp: 'Ο χρόνος τελείωσε!',
-  reveal: (fact: string) => `${fact}. Την επόμενη φορά θα τα καταφέρεις!`,
+  reveal: (fact: string) => `${fact}! Την επόμενη φορά θα τα καταφέρεις!`,
 
   // Results
   resultMessages: [
@@ -101,4 +102,46 @@ export const t = {
   resetYes: 'Ναι, διαγραφή',
   resetNo: 'Άκυρο',
   resetDone: 'Η πρόοδος διαγράφηκε. Καλή αρχή!',
+
+  // Length activity
+  length: {
+    mascotName: 'Μπλιπ',
+    units: { m: 'μ.', dm: 'δεκ.', cm: 'εκ.', mm: 'χιλ.' },
+    greeting: 'Γεια σου! Είμαι ο Μπλιπ και ήρθα από ένα μακρινό αστέρι για να μάθω τα μέτρα της Γης! Με βοηθάς;',
+    levelGreeting: 'Πέρασε τις πίστες για να κερδίσεις αστεράκια!',
+    levels: {
+      'm-cm': { title: 'Μέτρα και εκατοστά' },
+      'cm-mm': { title: 'Εκατοστά και χιλιοστά' },
+      dm: { title: 'Δεκατόμετρα' },
+      mm: { title: 'Μεγάλα άλματα' },
+      all: { title: 'Όλες οι μονάδες' },
+      mixed: { title: 'Μικτές μονάδες' },
+      grand: { title: 'Μεγάλη Πρόκληση' },
+    } as Record<string, { title: string }>,
+    grandSubtitle: 'Όλες οι μονάδες μαζί, με χρόνο!',
+    grandLocked: 'Πέρασε την Πρόκληση σε κάθε πύργο',
+    unlockedLevel: (name: string) => `Ξεκλείδωσες τον πύργο «${name}»!`,
+    hintDown: (v: number, from: string, to: string, r: number) => `1 ${from} = ${r} ${to}, άρα ${v} ${from} = ${v} × ${r} ${to}!`,
+    hintUp: (v: number, from: string, to: string, r: number) => `Σκέψου: ? × ${r} = ${v}, γιατί ${r} ${from} κάνουν 1 ${to}`,
+    hintCombine: (b: number, big: string, s: number, small: string, r: number) =>
+      `${b} ${big} = ${b * r} ${small}, και άλλα ${s} ${small}!`,
+    hintSplit: (total: number, big: string, small: string, r: number, whole: number, rest: number) =>
+      `Χώρισε το ${total} σε ${whole} και ${rest}: κάθε ${r} ${small} κάνουν 1 ${big}`,
+    allStickers: 'Τα μάζεψες όλα! Είσαι πραγματική εξερευνήτρια!',
+    gamesIntro: 'Διάλεξε ένα παιχνίδι για να εξασκηθείς με τις μονάδες μήκους!',
+    ruler: { title: 'Χάρακας', subtitle: 'Μέτρησε πόσο μακρύ είναι το μολύβι' },
+    compare: { title: 'Πιο μακρύ', subtitle: 'Διάλεξε το πιο μακρύ μήκος, ή «Ίσα»' },
+    rulerPrompt: 'Πόσο μακρύ είναι το μολύβι;',
+    comparePrompt: 'Ποιο είναι πιο μακρύ;',
+    equal: 'Ίσα',
+    gameRight: ['Μπράβο!', 'Σωστά!', 'Τέλεια!', 'Υπέροχα!'],
+    gameWrong: 'Όχι ακριβώς. Δοκίμασε ξανά!',
+    gameDone: 'Τέλειωσε το παιχνίδι! Ευχαριστώ για τη βοήθεια!',
+    masteryTitle: 'Πόσο καλά ξέρει κάθε μετατροπή',
+    masteryHint: 'Γραμμή: από ποια μονάδα, στήλη: σε ποια μονάδα. Με βάση τις απαντήσεις με την πρώτη προσπάθεια.',
+    mixedTitle: 'Μικτές μονάδες',
+    unlockAll: 'Ξεκλείδωμα όλων των πύργων',
+    unlockAllHint: 'Χρήσιμο αν οι πρώτοι πύργοι είναι πολύ εύκολοι.',
+    resetHint: 'Σβήνει τα αστέρια, τα αυτοκόλλητα και τα στατιστικά της Χώρας των Μέτρων. Ο πολλαπλασιασμός δεν επηρεάζεται.',
+  },
 };
